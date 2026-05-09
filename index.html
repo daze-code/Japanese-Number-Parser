@@ -365,7 +365,7 @@
 
     <div class="input-area">
       <div class="input-row">
-        <input class="num-input" id="cur-val" type="number" value="" oninput="computeCurrency()" />
+        <input class="num-input" id="cur-val" type="text" value="" oninput="computeCurrency()" />
         <span id="cur-tag" class="unit-tag utag-jp" style="display:none;"></span>
       </div>
       <div class="ghost-text" id="cur-ghost"></div>
@@ -403,7 +403,7 @@
 
     <div class="input-area">
       <div class="input-row">
-        <input class="num-input" id="num-val" type="number" value="" oninput="computeNum()" />
+        <input class="num-input" id="num-val" type="text" value="" oninput="computeNum()" />
         <span id="num-tag" class="unit-tag utag-jp" style="display:none;"></span>
       </div>
       <div class="ghost-text" id="num-ghost"></div>
@@ -452,6 +452,26 @@ let hideINR = false;
 /* ==========================================
    SHARED UTILITIES
 ========================================== */
+
+/**
+ * Safely evaluates simple math expressions (e.g. "17*12") inputted by the user.
+ */
+function evaluateMath(str) {
+  if (typeof str !== 'string' || !str.trim()) return NaN;
+  // Strip out any characters except digits, basic operators, decimals, and parens
+  let s = str.replace(/[^0-9+\-*/.()\s]/g, '');
+  // Temporarily strip trailing dangling operators so real-time typing doesn't revert to placeholder
+  s = s.replace(/[+\-*/.\s]+$/, '');
+  
+  if (!s) return NaN;
+  try {
+    const result = new Function('return ' + s)();
+    return isFinite(result) ? result : NaN;
+  } catch (e) {
+    return NaN;
+  }
+}
+
 function toggleINR() {
   hideINR = !hideINR;
   const btn = document.getElementById('toggle-inr-btn');
@@ -605,7 +625,9 @@ function selNumPill(i) {
 
 function computeNum() {
   const inputEl = document.getElementById('num-val');
-  let rawInput = parseFloat(inputEl.value);
+  
+  // Replaced direct parseFloat with the new evaluateMath helper
+  let rawInput = evaluateMath(inputEl.value);
   if (isNaN(rawInput)) rawInput = parseFloat(inputEl.placeholder);
   if (isNaN(rawInput)) rawInput = 0; 
 
@@ -745,8 +767,10 @@ function selCurPill(i) {
 
 function computeCurrency() {
   const inputEl = document.getElementById('cur-val');
-  let rawInput = parseFloat(inputEl.value);
-  const isTyped = !isNaN(rawInput);
+  
+  // Replaced direct parseFloat with the new evaluateMath helper
+  let rawInput = evaluateMath(inputEl.value);
+  const isTyped = inputEl.value.trim() !== '' && !isNaN(rawInput);
   if (isNaN(rawInput)) rawInput = parseFloat(inputEl.placeholder);
   if (isNaN(rawInput)) rawInput = 0;
 
