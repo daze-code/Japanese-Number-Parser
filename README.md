@@ -3,7 +3,7 @@
 
 ### 🌉 The Problem: The "Cultural Number" Barrier
 
-Translating massive numbers across borders isn't just about math or exchange rates; it's about **linguistic structure**. Western numbers group by thousands (Millions, Billions), Japanese numbers group by ten-thousands (万, 億), and Indian numbers group by hundreds (Lakhs, Crores).
+Translating massive numbers across borders isn't just about math or exchange rates; it's about **linguistic structure**. Western numbers group by thousands (Millions, Billions), Japanese numbers group by ten-thousands (万<Man>, 億<Oku>), and Indian numbers group by hundreds (Lakhs, Crores).
 
 When you hear *"The project cost 150億 Yen"* on the news, traditional tools fail to give you an intuitive answer.
 
