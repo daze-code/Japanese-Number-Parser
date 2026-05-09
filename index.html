@@ -58,13 +58,13 @@
     max-width: 680px;
   }
 
+  /* Header & Navigation */
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
   }
-  
   .header-title {
     font-size: 22px;
     font-weight: 700;
@@ -106,7 +106,7 @@
     font-weight: 500;
     transition: background 0.15s;
   }
-  .help-btn:hover { background: var(--border); }
+  .help-btn:hover { background: var(--border); color: var(--text-1); }
 
   .help-box {
     display: none;
@@ -123,7 +123,6 @@
   .help-box strong { color: var(--text-1); font-weight: 500; }
   .help-box ul { margin-top: 8px; margin-left: 20px; }
 
-  /* App Navigation */
   .app-nav {
     display: flex;
     background: var(--surface);
@@ -160,8 +159,8 @@
     font-weight: 500;
   }
 
+  /* Unit Pills */
   .pill-row { display: flex; flex-wrap: wrap; gap: 4px; }
-
   .chip {
     display: flex;
     flex-direction: column;
@@ -170,11 +169,12 @@
     border-radius: var(--radius-sm);
     border: 0.5px solid var(--border);
     cursor: pointer;
-    transition: border-color .12s, background .12s;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
     user-select: none;
     min-width: 60px;
   }
-  .chip:hover { border-color: var(--border-md); }
+  .chip:hover { border-color: var(--border-md); transform: translateY(-1px); }
+  .chip:active { transform: translateY(0); }
   .chip-top { font-size: 13px; font-weight: 500; line-height: 1.3; }
   .chip-bot { font-family: var(--mono); font-size: 9px; line-height: 1.3; margin-top: 1px; }
 
@@ -198,17 +198,19 @@
 
   .unit-section { margin-bottom: 1.25rem; }
 
+  /* Input Box */
   .input-area {
     background: var(--surface);
     border: 0.5px solid var(--border-md);
     border-radius: var(--radius-md);
     padding: 14px 16px;
     margin-bottom: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   }
   .input-row { display: flex; align-items: center; gap: 8px; }
   .num-input {
     font-family: var(--mono);
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 500;
     border: none;
     background: transparent;
@@ -220,23 +222,22 @@
   }
   .num-input::-webkit-outer-spin-button,
   .num-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-  
-  .num-input::placeholder { color: var(--text-3); opacity: 1; }
+  .num-input::placeholder { color: var(--text-3); opacity: 0.6; }
 
   .ghost-text {
     font-family: var(--sans);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-3);
-    margin-top: 4px;
-    min-height: 18px;
+    margin-top: 6px;
+    min-height: 20px;
   }
 
   .unit-tag {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
-    padding: 3px 9px;
-    border-radius: 5px;
+    padding: 4px 10px;
+    border-radius: 6px;
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -252,13 +253,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 6px;
     border-radius: 4px;
     transition: background 0.15s, color 0.15s;
   }
   .copy-btn:hover { background: var(--border); color: var(--text-1); }
 
-  /* Status Styles */
+  /* API Status */
   .currency-status {
     font-size: 10px;
     text-transform: uppercase;
@@ -269,12 +270,12 @@
     align-items: center;
     gap: 6px;
   }
-  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #e0e0e0; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #e0e0e0; transition: background 0.3s; }
   .status-dot.active { background: #4caf50; }
   .status-dot.error { background: #f44336; }
 
-  /* Output Cards (Shared CSS) */
-  .out-card {
+  /* Output Cards */
+  .card {
     background: var(--surface);
     border: 0.5px solid var(--border-md);
     border-radius: var(--radius-md);
@@ -283,62 +284,63 @@
     transition: border-color 0.15s, box-shadow 0.15s;
     overflow: hidden;
   }
-  .out-card:hover { border-color: var(--text-3); box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+  .card:hover { border-color: var(--text-3); box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
   
-  .out-card-main {
+  .card-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 16px 20px;
   }
   
-  .out-left { display: flex; align-items: center; gap: 12px; }
-  .out-flag { font-size: 20px; }
-  .out-name { font-size: 18px; font-weight: 500; color: var(--text-1); display: flex; flex-direction: column; }
-  .out-name span { font-size: 10px; color: var(--text-3); font-weight: 400; margin-top: 2px;}
+  .card-left { display: flex; align-items: center; gap: 12px; }
+  .card-flag { font-size: 20px; }
+  .card-name { font-size: 18px; font-weight: 500; color: var(--text-1); display: flex; flex-direction: column; }
+  .card-name span { font-size: 11px; color: var(--text-3); font-weight: 400; margin-top: 2px;}
   .base-badge { background: var(--bg); color: var(--text-2); border: 0.5px solid var(--border); padding: 2px 6px; border-radius: 4px; font-size: 9px; margin-top: 4px; display: inline-block; width: fit-content; font-weight: 500;}
   
-  .out-right { text-align: right; }
-  .out-val-row { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
-  .out-val { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text-1); }
-  .out-readable { font-family: var(--sans); font-size: 12px; color: var(--text-3); margin-top: 4px; font-weight: 500; }
+  .card-right { text-align: right; }
+  .card-val-row { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .card-val { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--text-1); }
+  .card-readable { font-family: var(--sans); font-size: 13px; color: var(--text-3); margin-top: 4px; font-weight: 500; }
 
-  .out-card-bd {
-    display: none;
-    border-top: 0.5px solid var(--border);
+  /* Accordion Breakdown using CSS Grid */
+  .card-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
     background: var(--bg);
-    padding: 12px 16px;
   }
-  .out-card.expanded .out-card-bd { display: block; }
-  .out-card-bd .bcol { max-width: 220px; margin-left: auto; }
+  .card.expanded .card-drawer { grid-template-rows: 1fr; }
+  
+  .card-drawer-inner {
+    overflow: hidden;
+  }
+  .card-bd {
+    border-top: 0.5px solid var(--border);
+    padding: 14px 20px;
+  }
+  .card-bd .bcol { max-width: 240px; margin-left: auto; }
   
   .brow {
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
-    padding: 3.5px 0;
+    padding: 4px 0;
     border-bottom: 0.5px solid var(--border);
   }
   .brow:last-child { border-bottom: none; }
-  .bval { 
-    font-family: var(--mono); 
-    font-size: 13px; 
-    font-weight: 500; 
-    color: var(--text-1); 
-    width: 45px; 
-    text-align: right; 
-    margin-right: 12px; 
-  }
+  .bval { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text-1); width: 60px; text-align: right; margin-right: 14px; }
   .bval.z { color: var(--text-3); font-weight: 400; }
-  .bname { font-size: 11px; color: var(--text-2); }
+  .bname { font-size: 12px; color: var(--text-2); }
 
   .bcol-head {
     font-size: 10px;
     font-weight: 500;
     letter-spacing: .07em;
     text-transform: uppercase;
-    margin-bottom: 10px;
-    padding: 2px 7px;
+    margin-bottom: 12px;
+    padding: 3px 8px;
     border-radius: 4px;
     display: inline-block;
   }
@@ -346,8 +348,8 @@
   .bh-in { background: var(--in-bg); color: var(--in-acc); }
   .bh-en { background: var(--en-bg); color: var(--en-acc); }
 
-  .chevron { transition: transform 0.2s; color: var(--text-3); display: flex; margin-left: 6px; }
-  .out-card.expanded .chevron { transform: rotate(180deg); }
+  .chevron { transition: transform 0.3s ease; color: var(--text-3); display: flex; margin-left: 6px; }
+  .card.expanded .chevron { transform: rotate(180deg); }
 
 </style>
 </head>
@@ -362,9 +364,9 @@
   <div class="help-box" id="help-box">
     <strong>How to use this tool:</strong>
     <ul>
-      <li><strong>Number Mode:</strong> Quickly translate pure figures (like "6700万 visitors") into Western and Indian formats.</li>
-      <li><strong>Currency Mode:</strong> Uses live API exchange rates to convert financial figures between JPY, USD, and INR.</li>
-      <li><strong>Click on any output card</strong> to expand it and see exactly how that number is broken down natively.</li>
+      <li><strong>Number Mode:</strong> Quickly translate pure figures (like "6700万 visitors") natively between Western, Indian, and Japanese formats.</li>
+      <li><strong>Currency Mode:</strong> Convert live exchange rates between JPY, USD, and INR natively.</li>
+      <li><strong>Click on any output card</strong> (including the base format) to expand it and see exactly how that number is broken down and read in that region's format.</li>
     </ul>
   </div>
 
@@ -376,63 +378,61 @@
   <div id="view-number">
     <div class="unit-section" style="margin-bottom: 1rem;">
       <div class="slabel">1. Origin Format</div>
-      <div class="pill-row">
-        <div class="chip chip-jp on" id="num-base-JP" onclick="setNumBase('JP')">
-          <span class="chip-top">Japanese</span><span class="chip-bot">Myriad System</span>
+      <div class="pill-row" id="num-base-pills">
+        <div class="chip chip-jp on" onclick="setNumBase('JP')">
+          <span class="chip-top" style="margin: 4px 0;">Japanese</span>
         </div>
-        <div class="chip chip-en" id="num-base-EN" onclick="setNumBase('EN')">
-          <span class="chip-top">Western</span><span class="chip-bot">Short Scale</span>
+        <div class="chip chip-en" onclick="setNumBase('EN')">
+          <span class="chip-top" style="margin: 4px 0;">English</span>
         </div>
-        <div class="chip chip-in" id="num-base-IN" onclick="setNumBase('IN')">
-          <span class="chip-top">Indian</span><span class="chip-bot">Vedic System</span>
+        <div class="chip chip-in" onclick="setNumBase('IN')">
+          <span class="chip-top" style="margin: 4px 0;">Indian</span>
         </div>
       </div>
     </div>
 
     <div class="unit-section">
-      <div class="slabel" id="num-unit-label">2. Input Number</div>
+      <div class="slabel">2. Input Number</div>
       <div class="pill-row" id="num-pills"></div>
     </div>
 
     <div class="input-area">
       <div class="input-row">
-        <input class="num-input" id="num-val" type="number" value="" oninput="computeNum()" placeholder="200" />
+        <input class="num-input" id="num-val" type="number" value="" oninput="computeNum()" />
         <span id="num-tag" class="unit-tag utag-jp" style="display:none;"></span>
       </div>
       <div class="ghost-text" id="num-ghost"></div>
     </div>
 
     <div class="slabel" style="margin-bottom: 10px;">3. Formatted Translations</div>
-    <div id="num-output">
-      </div>
+    <div id="num-output"></div>
   </div>
 
 
   <div id="view-currency" style="display:none;">
-    
     <div class="unit-section" style="margin-bottom: 1rem;">
       <div class="slabel">Base Currency</div>
-      <div class="pill-row">
-        <div class="chip chip-jp on" id="cur-base-JPY" onclick="setCurBase('JPY')">
+      <div class="pill-row" id="cur-base-pills">
+        <div class="chip chip-jp on" onclick="setCurBase('JPY')">
           <span class="chip-top">JPY</span><span class="chip-bot">¥ Yen</span>
         </div>
-        <div class="chip chip-en" id="cur-base-USD" onclick="setCurBase('USD')">
+        <div class="chip chip-en" onclick="setCurBase('USD')">
           <span class="chip-top">USD</span><span class="chip-bot">$ Dollar</span>
         </div>
-        <div class="chip chip-in" id="cur-base-INR" onclick="setCurBase('INR')">
+        <div class="chip chip-in" onclick="setCurBase('INR')">
           <span class="chip-top">INR</span><span class="chip-bot">₹ Rupee</span>
         </div>
       </div>
     </div>
 
     <div class="unit-section">
-      <div class="slabel" id="cur-unit-label">Choose an input method</div>
+      <div class="slabel">Choose an input method</div>
       <div class="pill-row" id="cur-pills"></div>
     </div>
 
     <div class="input-area">
       <div class="input-row">
-        <input class="num-input" id="cur-val" type="number" value="" oninput="computeCurrency()" placeholder="8000000" />
+        <input class="num-input" id="cur-val" type="number" value="" oninput="computeCurrency()" />
         <span id="cur-tag" class="unit-tag utag-jp" style="display:none;"></span>
       </div>
       <div class="ghost-text" id="cur-ghost"></div>
@@ -443,46 +443,46 @@
       <span id="api-status-text">Fetching live rates...</span>
     </div>
 
-    <div id="cur-output">
-      </div>
+    <div id="cur-output"></div>
   </div>
 
 </div>
 
 <script>
-// Icon SVGs
+/* ==========================================
+   CONSTANTS & CONFIG
+========================================== */
 const COPY_ICON = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 const CHECK_ICON = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="#4caf50" stroke-width="2" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
+const N_META = {
+  JP: { flag: '🇯🇵', name: 'Japanese', locale: 'ja-JP', class: 'jp', group: 'jp', desc: '万 / 億 / 兆' },
+  EN: { flag: '🇺🇸', name: 'Western', locale: 'en-US', class: 'en', group: 'en', desc: 'Millions / Billions' },
+  IN: { flag: '🇮🇳', name: 'Indian', locale: 'en-IN', class: 'in', group: 'in', desc: 'Lakhs / Crores' }
+};
+
+const C_META = {
+  JPY: { name: 'Japanese Yen', locale: 'ja-JP', class: 'jp', group: 'jp' },
+  USD: { name: 'US Dollar', locale: 'en-US', class: 'en', group: 'en' },
+  INR: { name: 'Indian Rupee', locale: 'en-IN', class: 'in', group: 'in' }
+};
+
 const DIRECT_PILL = { t: 'Direct Input', b: 'Raw', m: 1 };
-
-// Common Metadata
-const NUM_META = {
-  JP: { flag: '🇯🇵', name: 'Japanese', locale: 'ja-JP', class: 'jp', desc: '万 / 億 / 兆' },
-  EN: { flag: '🇺🇸', name: 'Western', locale: 'en-US', class: 'en', desc: 'Millions / Billions' },
-  IN: { flag: '🇮🇳', name: 'Indian', locale: 'en-IN', class: 'in', desc: 'Lakhs / Crores' }
+const PILLS_MAP = {
+  JP: [ DIRECT_PILL, {t:'万', b:'10,000', m:1e4}, {t:'億', b:'100,000,000', m:1e8}, {t:'兆', b:'1,000,000,000,000', m:1e12} ],
+  EN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Million', b:'1,000,000', m:1e6}, {t:'Billion', b:'1,000,000,000', m:1e9} ],
+  IN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Lakh', b:'1,00,000', m:1e5}, {t:'Crore', b:'1,00,00,000', m:1e7} ]
 };
 
-const CUR_META = {
-  JPY: { flag: '🇯🇵', name: 'Japanese Yen', locale: 'ja-JP', class: 'jp', group: 'jp' },
-  USD: { flag: '🇺🇸', name: 'US Dollar', locale: 'en-US', class: 'en', group: 'en' },
-  INR: { flag: '🇮🇳', name: 'Indian Rupee', locale: 'en-IN', class: 'in', group: 'in' }
-};
-
-const PILLS_JP = [ DIRECT_PILL, {t:'万', b:'10,000', m:1e4}, {t:'億', b:'100,000,000', m:1e8}, {t:'兆', b:'1,000,000,000,000', m:1e12} ];
-const PILLS_EN = [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Million', b:'1,000,000', m:1e6}, {t:'Billion', b:'1,000,000,000', m:1e9} ];
-const PILLS_IN = [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Lakh', b:'1,00,000', m:1e5}, {t:'Crore', b:'1,00,00,000', m:1e7} ];
-
-// State
-let numBase = 'JP';
-let numSi = 1;
-
-let curBase = 'JPY';
-let curSi = 0;
+// Global State
+let numBase = 'JP', numSi = 1; 
+let curBase = 'JPY', curSi = 0; 
 let rates = { USD: 0, INR: 0 };
 let ratesActive = false;
 
-// Shared Functions
+/* ==========================================
+   SHARED UTILITIES
+========================================== */
 function toggleHelp() {
   document.getElementById('help-box').classList.toggle('show');
 }
@@ -502,16 +502,68 @@ function toggleCard(elem) {
 }
 
 function copyVal(e, val) {
-  e.stopPropagation();
+  e.stopPropagation(); // Prevents card from collapsing
   navigator.clipboard.writeText(val.toString());
   const btn = e.currentTarget;
   btn.innerHTML = CHECK_ICON;
   setTimeout(() => { btn.innerHTML = COPY_ICON; }, 1500);
 }
 
-// Generate Breakdowns
+// Reusable DOM Pill Generator
+function getPillHtml(pillArray, activeIdx, groupClass, clickHandlerName) {
+  return pillArray.map((u, i) => {
+    const isDirect = i === 0;
+    const cName = isDirect ? 'chip-direct' : `chip-${groupClass}`;
+    const active = i === activeIdx ? ' on' : '';
+    return `
+      <div class="chip ${cName}${active}" onclick="${clickHandlerName}(${i})">
+        <span class="chip-top">${u.t}</span><span class="chip-bot">${u.b}</span>
+      </div>`;
+  }).join('');
+}
+
+// Smart Number Readables
+function getSummaryText(total, code) {
+  const isCur = ['JPY','USD','INR'].includes(code);
+  const mappedCode = isCur ? (code === 'JPY' ? 'JP' : code === 'USD' ? 'EN' : 'IN') : code;
+  
+  const originalTotal = total;
+  total = Math.floor(Math.abs(total)); // Use absolute for breakdown logic
+  if (total === 0) return '';
+  
+  let parts = [];
+  if (mappedCode === 'JP') {
+    const cho = Math.floor(total / 1e12), oku = Math.floor((total % 1e12) / 1e8), man = Math.floor((total % 1e8) / 1e4), sen = Math.floor((total % 1e4) / 1e3);
+    if (cho) parts.push(`${cho}兆`);
+    if (oku) parts.push(`${oku}億`);
+    if (man) parts.push(`${man}万`);
+    if (sen && parts.length < 2) parts.push(`${sen}千`);
+  } else if (mappedCode === 'EN') {
+    const t = Math.floor(total / 1e12), b = Math.floor((total % 1e12) / 1e9), m = Math.floor((total % 1e9) / 1e6), k = Math.floor((total % 1e6) / 1e3);
+    const suffix = isCur ? ['T','B','M','K'] : [' Trillion',' Billion',' Million',' Thousand'];
+    if (t) parts.push(`${t}${suffix[0]}`);
+    if (b) parts.push(`${b}${suffix[1]}`);
+    if (m) parts.push(`${m}${suffix[2]}`);
+    if (k && parts.length < 2) parts.push(`${k}${suffix[3]}`);
+  } else if (mappedCode === 'IN') {
+    const cr = Math.floor(total / 1e7), lakh = Math.floor((total % 1e7) / 1e5), k = Math.floor((total % 1e5) / 1e3);
+    const suffix = isCur ? [' Cr',' Lakh','K'] : [' Crore',' Lakh',' Thousand'];
+    if (cr) parts.push(`${cr}${suffix[0]}`);
+    if (lakh) parts.push(`${lakh}${suffix[1]}`);
+    if (k && parts.length < 2) parts.push(`${k}${suffix[2]}`);
+  }
+  
+  const joiner = mappedCode === 'JP' ? '' : ' ';
+  const locale = isCur ? C_META[code].locale : N_META[code].locale;
+  const sign = originalTotal < 0 ? '-' : '';
+  
+  return parts.length > 0 
+    ? sign + parts.slice(0, 2).join(joiner) 
+    : Number(originalTotal).toLocaleString(locale, { maximumFractionDigits: 0 }); 
+}
+
 function getBreakdownHtml(totalNum, group) {
-  const total = Math.floor(totalNum);
+  const total = Math.floor(Math.abs(totalNum));
   let rows = [];
   if (group === 'jp') {
     const cho=Math.floor(total/1e12),oku=Math.floor((total%1e12)/1e8),man=Math.floor((total%1e8)/1e4), sen=Math.floor((total%1e4)/1e3),hya=Math.floor((total%1e3)/100),ju=Math.floor((total%100)/10),ichi=total%10;
@@ -526,109 +578,51 @@ function getBreakdownHtml(totalNum, group) {
   return rows.map(r=>`<div class="brow"><span class="bval${r.v===0?' z':''}">${r.v}</span><span class="bname">${r.l}</span></div>`).join('');
 }
 
-// Generate Readables
-function getSummaryText(total, code, preserveDecimals) {
-  const originalTotal = total;
-  total = Math.floor(total);
-  if (total === 0) return '';
-  let parts = [];
-  
-  if (code === 'JPY' || code === 'JP') {
-    const cho = Math.floor(total / 1e12);
-    const oku = Math.floor((total % 1e12) / 1e8);
-    const man = Math.floor((total % 1e8) / 1e4);
-    const sen = Math.floor((total % 1e4) / 1e3);
-    if (cho) parts.push(`${cho}兆`);
-    if (oku) parts.push(`${oku}億`);
-    if (man) parts.push(`${man}万`);
-    if (sen && parts.length < 2) parts.push(`${sen}千`);
-  } else if (code === 'USD' || code === 'EN') {
-    const t = Math.floor(total / 1e12);
-    const b = Math.floor((total % 1e12) / 1e9);
-    const m = Math.floor((total % 1e9) / 1e6);
-    const k = Math.floor((total % 1e6) / 1e3);
-    const suffix = code === 'EN' ? [' Trillion',' Billion',' Million',' Thousand'] : ['T','B','M','K'];
-    if (t) parts.push(`${t}${suffix[0]}`);
-    if (b) parts.push(`${b}${suffix[1]}`);
-    if (m) parts.push(`${m}${suffix[2]}`);
-    if (k && parts.length < 2) parts.push(`${k}${suffix[3]}`);
-  } else if (code === 'INR' || code === 'IN') {
-    const cr = Math.floor(total / 1e7);
-    const lakh = Math.floor((total % 1e7) / 1e5);
-    const k = Math.floor((total % 1e5) / 1e3);
-    const suffix = code === 'IN' ? [' Crore',' Lakh',' Thousand'] : [' Cr',' Lakh','K'];
-    if (cr) parts.push(`${cr}${suffix[0]}`);
-    if (lakh) parts.push(`${lakh}${suffix[1]}`);
-    if (k && parts.length < 2) parts.push(`${k}${suffix[2]}`);
-  }
-  
-  const joiner = (code === 'JPY' || code === 'JP') ? '' : ' ';
-  let formattedFallback = '';
-  if(code === 'JPY' || code === 'USD' || code === 'INR') {
-     formattedFallback = Number(originalTotal).toLocaleString(CUR_META[code].locale, { maximumFractionDigits: 0 });
-  } else {
-     formattedFallback = Number(originalTotal).toLocaleString(SYS_META[code].locale, { maximumFractionDigits: 2 });
-  }
-  return parts.slice(0, 2).join(joiner) || formattedFallback; 
-}
-
 
 /* ==========================================
-   MODULE 1: NUMBER FORMAT PARSER
+   MODULE 1: NUMBER MODE
 ========================================== */
-function getNumPills(code) {
-  if(code === 'JP') return PILLS_JP;
-  if(code === 'EN') return PILLS_EN;
-  return PILLS_IN;
-}
-
 function setNumBase(code) {
   numBase = code;
-  numSi = 1; // Default to first multiplier (e.g. 万, Million)
-  ['JP','EN','IN'].forEach(c => {
-    document.getElementById('num-base-'+c).classList.toggle('on', c === code);
+  numSi = 1; // Default to Unit pill for Numbers
+  
+  // Toggle active base chip
+  const bases = document.getElementById('num-base-pills').children;
+  Array.from(bases).forEach((child, idx) => {
+      child.classList.toggle('on', idx === (code === 'JP' ? 0 : code === 'EN' ? 1 : 2));
   });
   
+  // Manage safe Placeholder transitions
   const valInput = document.getElementById('num-val');
-  valInput.value = ''; 
-  if(code === 'JP') { valInput.placeholder = '200'; } 
-  else if(code === 'EN') { valInput.placeholder = '2'; } 
-  else { valInput.placeholder = '20'; } 
+  if(!valInput.value) { 
+    valInput.placeholder = code === 'JP' ? '200' : code === 'EN' ? '2' : '20'; 
+  }
   
   renderNumPills();
   computeNum();
 }
 
 function renderNumPills() {
-  const pills = getNumPills(numBase);
-  const groupClass = NUM_META[numBase].class;
-  document.getElementById('num-pills').innerHTML = pills.map((u, i) => {
-    if (i === 0) {
-      return `<div class="chip chip-direct${i===numSi?' on':''}" onclick="selNumPill(${i})">
-        <span class="chip-top">${u.t}</span><span class="chip-bot">${u.b}</span>
-      </div>`;
-    }
-    return `<div class="chip chip-${groupClass}${i===numSi?' on':''}" onclick="selNumPill(${i})">
-      <span class="chip-top">${u.t}</span><span class="chip-bot">${u.b}</span>
-    </div>`;
-  }).join('');
+  const html = getPillHtml(PILLS_MAP[numBase], numSi, N_META[numBase].class, 'selNumPill');
+  document.getElementById('num-pills').innerHTML = html;
 }
 
 function selNumPill(i) {
-  if (numSi === i) return; 
+  if (numSi === i) return; // Prevent wipe
   numSi = i;
-  renderNumPills();
   
+  // Cheap DOM update instead of full rebuild
+  const pills = document.getElementById('num-pills').children;
+  Array.from(pills).forEach((child, idx) => child.classList.toggle('on', idx === i));
+  
+  // Handle Placeholders without touching user data
   const valInput = document.getElementById('num-val');
-  valInput.value = ''; // clear real value so placeholder works
-  if(numSi === 0) { // Direct
-    if(numBase === 'JP') { valInput.placeholder = '2000000'; }
-    else if(numBase === 'EN') { valInput.placeholder = '2000000'; }
-    else { valInput.placeholder = '2000000'; }
-  } else {
-    if(numBase === 'JP') { valInput.placeholder = '200'; }
-    else if(numBase === 'EN') { valInput.placeholder = '2'; }
-    else { valInput.placeholder = '20'; }
+  if(!valInput.value) {
+    if(numSi === 0) { 
+      valInput.placeholder = '2000000';
+    } else {
+      valInput.placeholder = numBase === 'JP' ? '200' : numBase === 'EN' ? '2' : '20';
+    }
   }
   
   computeNum();
@@ -637,59 +631,67 @@ function selNumPill(i) {
 function computeNum() {
   const inputEl = document.getElementById('num-val');
   let rawInput = parseFloat(inputEl.value);
+  const isTyped = !isNaN(rawInput);
   if (isNaN(rawInput)) rawInput = parseFloat(inputEl.placeholder);
-  if (isNaN(rawInput)) rawInput = 0;
+  if (isNaN(rawInput)) rawInput = 0; // Absolute fallback
 
-  const pill = getNumPills(numBase)[numSi];
+  const pill = PILLS_MAP[numBase][numSi];
   const total = rawInput * pill.m;
-  const meta = NUM_META[numBase];
+  const meta = N_META[numBase];
 
   const tag = document.getElementById('num-tag');
   const ghost = document.getElementById('num-ghost');
   
-  if (numSi === 0) { // Direct
+  // Input UI State
+  if (numSi === 0) { // Direct Mode
     tag.style.display = 'none';
-    if (!isNaN(rawInput)) {
+    if (isTyped) {
       ghost.style.display = 'block';
       ghost.textContent = getSummaryText(rawInput, numBase);
     } else {
       ghost.style.display = 'none';
     }
-  } else { // Unit
+  } else { // Unit Mode
     tag.style.display = 'inline-block';
     tag.textContent = pill.t;
     tag.className = `unit-tag utag-${meta.class}`;
     ghost.style.display = 'none';
   }
 
+  // Render Output
   let outputHtml = '';
   ['JP', 'EN', 'IN'].forEach(code => {
     const isBase = code === numBase;
-    const formatted = new Intl.NumberFormat(NUM_META[code].locale, { maximumFractionDigits: 2 }).format(total);
+    const formatted = new Intl.NumberFormat(N_META[code].locale, { maximumFractionDigits: 0 }).format(total);
     const summaryText = getSummaryText(total, code);
-    const bdHtml = getBreakdownHtml(total, NUM_META[code].class);
+    const bdHtml = getBreakdownHtml(total, N_META[code].group);
+    const copyData = Math.round(total);
     const baseTag = isBase ? `<div class="base-badge">INPUT</div>` : '';
 
     outputHtml += `
-      <div class="out-card" onclick="toggleCard(this)">
-        <div class="out-card-main">
-          <div class="out-left">
-            <span class="out-flag">${NUM_META[code].flag}</span>
-            <div class="out-name">${NUM_META[code].name} ${baseTag}<span>${NUM_META[code].desc}</span></div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-left">
+            <span class="card-flag">${N_META[code].flag}</span>
+            <div class="card-name">${N_META[code].name} ${baseTag}<span>${N_META[code].desc}</span></div>
           </div>
-          <div class="out-right">
-            <div class="out-val-row">
-              <div class="out-val">${formatted}</div>
-              <button class="copy-btn" onclick="copyVal(event, ${total})" title="Copy Value">${COPY_ICON}</button>
+          <div class="card-right">
+            <div class="card-val-row">
+              <div class="card-val">${formatted}</div>
+              <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
-            ${summaryText ? `<div class="out-readable">${summaryText}</div>` : ''}
+            ${summaryText ? `<div class="card-readable">${summaryText}</div>` : ''}
           </div>
         </div>
-        <div class="out-card-bd">
-          <div class="bcol" onclick="(e) => e.stopPropagation()">
-             <div class="bcol-head bh-${NUM_META[code].class}">${NUM_META[code].name} Structure</div>
-             ${bdHtml}
+        <div class="card-drawer">
+          <div class="card-drawer-inner">
+            <div class="card-bd" onclick="event.stopPropagation()">
+               <div class="bcol">
+                 <div class="bcol-head bh-${N_META[code].class}">${N_META[code].name} Structure</div>
+                 ${bdHtml}
+               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -701,14 +703,8 @@ function computeNum() {
 
 
 /* ==========================================
-   MODULE 2: CURRENCY CONVERTER
+   MODULE 2: CURRENCY MODE
 ========================================== */
-function getCurPills(code) {
-  if(code === 'JPY') return PILLS_JP;
-  if(code === 'USD') return PILLS_EN;
-  return PILLS_IN;
-}
-
 async function fetchExchangeRates() {
   const dot = document.getElementById('api-status-dot');
   const text = document.getElementById('api-status-text');
@@ -726,56 +722,52 @@ async function fetchExchangeRates() {
   } catch (error) {
     dot.className = 'status-dot error';
     text.textContent = 'Live Rates Offline';
-    computeCurrency(); 
+    computeCurrency(); // Run to render base block
   }
 }
 
 function setCurBase(code) {
   curBase = code;
-  curSi = 0; // Default to Direct Input
-  ['JPY','USD','INR'].forEach(c => {
-    document.getElementById('cur-base-'+c).classList.toggle('on', c === code);
+  curSi = 0; // Default to Direct
+  
+  const bases = document.getElementById('cur-base-pills').children;
+  Array.from(bases).forEach((child, idx) => {
+      child.classList.toggle('on', idx === (code === 'JPY' ? 0 : code === 'USD' ? 1 : 2));
   });
   
   const valInput = document.getElementById('cur-val');
-  valInput.value = ''; 
-  if(code === 'JPY') { valInput.placeholder = '8000000'; }
-  else if(code === 'INR') { valInput.placeholder = '5000000'; }
-  else { valInput.placeholder = '50000'; }
+  if(!valInput.value) {
+    if(code === 'JPY') { valInput.placeholder = '8000000'; }
+    else if(code === 'INR') { valInput.placeholder = '5000000'; }
+    else { valInput.placeholder = '50000'; }
+  }
   
   renderCurPills();
   computeCurrency();
 }
 
 function renderCurPills() {
-  const pills = getCurPills(curBase);
-  const groupClass = CUR_META[curBase].class;
-  document.getElementById('cur-pills').innerHTML = pills.map((u, i) => {
-    if (i === 0) {
-      return `<div class="chip chip-direct${i===curSi?' on':''}" onclick="selCurPill(${i})">
-        <span class="chip-top">${u.t}</span><span class="chip-bot">${u.b}</span>
-      </div>`;
-    }
-    return `<div class="chip chip-${groupClass}${i===curSi?' on':''}" onclick="selCurPill(${i})">
-      <span class="chip-top">${u.t}</span><span class="chip-bot">${u.b}</span>
-    </div>`;
-  }).join('');
+  const mappedSys = curBase === 'JPY' ? 'JP' : curBase === 'USD' ? 'EN' : 'IN';
+  const html = getPillHtml(PILLS_MAP[mappedSys], curSi, C_META[curBase].class, 'selCurPill');
+  document.getElementById('cur-pills').innerHTML = html;
 }
 
 function selCurPill(i) {
   if (curSi === i) return; 
   curSi = i;
-  renderCurPills();
+  
+  const pills = document.getElementById('cur-pills').children;
+  Array.from(pills).forEach((child, idx) => child.classList.toggle('on', idx === i));
   
   const valInput = document.getElementById('cur-val');
-  if(curSi !== 0) {
-    valInput.value = '';
-    valInput.placeholder = '1'; 
-  } else {
-    valInput.value = '';
-    if(curBase === 'JPY') { valInput.placeholder = '8000000'; }
-    else if(curBase === 'INR') { valInput.placeholder = '5000000'; }
-    else { valInput.placeholder = '50000'; }
+  if(!valInput.value) {
+    if(curSi !== 0) {
+      valInput.placeholder = '1'; 
+    } else {
+      if(curBase === 'JPY') { valInput.placeholder = '8000000'; }
+      else if(curBase === 'INR') { valInput.placeholder = '5000000'; }
+      else { valInput.placeholder = '50000'; }
+    }
   }
   
   computeCurrency();
@@ -783,21 +775,22 @@ function selCurPill(i) {
 
 function computeCurrency() {
   const inputEl = document.getElementById('cur-val');
-  
   let rawInput = parseFloat(inputEl.value);
+  const isTyped = !isNaN(rawInput);
   if (isNaN(rawInput)) rawInput = parseFloat(inputEl.placeholder);
   if (isNaN(rawInput)) rawInput = 0;
 
-  const pill = getCurPills(curBase)[curSi];
+  const mappedSys = curBase === 'JPY' ? 'JP' : curBase === 'USD' ? 'EN' : 'IN';
+  const pill = PILLS_MAP[mappedSys][curSi];
   const total = rawInput * pill.m;
-  const meta = CUR_META[curBase];
+  const meta = C_META[curBase];
 
   const tag = document.getElementById('cur-tag');
   const ghost = document.getElementById('cur-ghost');
   
   if (curSi === 0) { 
     tag.style.display = 'none';
-    if (!isNaN(rawInput)) {
+    if (isTyped) {
       ghost.style.display = 'block';
       ghost.textContent = getSummaryText(rawInput, curBase);
     } else {
@@ -812,6 +805,7 @@ function computeCurrency() {
 
   let outputHtml = '';
   ['JPY', 'USD', 'INR'].forEach(code => {
+    // Offline bypass safety
     if (!ratesActive && code !== curBase) return;
       
     let outVal = total; 
@@ -826,33 +820,37 @@ function computeCurrency() {
       else if (code === 'INR') outVal = valInJpy * rates.INR;
     }
 
-    const formatted = new Intl.NumberFormat(CUR_META[code].locale, { style: 'currency', currency: code, maximumFractionDigits: 0 }).format(outVal);
+    const formatted = new Intl.NumberFormat(C_META[code].locale, { style: 'currency', currency: code, maximumFractionDigits: 0 }).format(outVal);
     const summaryText = getSummaryText(outVal, code);
-    const bdHtml = getBreakdownHtml(outVal, CUR_META[code].group);
+    const bdHtml = getBreakdownHtml(outVal, C_META[code].group);
     const copyData = Math.round(outVal);
     
     const isBase = code === curBase;
     const baseTag = isBase ? `<div class="base-badge">INPUT</div>` : '';
 
     outputHtml += `
-      <div class="out-card" onclick="toggleCard(this)">
-        <div class="out-card-main">
-          <div class="out-left">
-            <div class="out-name">${code} ${baseTag}</div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-main">
+          <div class="card-left">
+            <div class="card-name">${code} ${baseTag}</div>
           </div>
-          <div class="out-right">
-            <div class="out-val-row">
-              <div class="out-val">${formatted}</div>
+          <div class="card-right">
+            <div class="card-val-row">
+              <div class="card-val">${formatted}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
-            ${summaryText ? `<div class="out-readable">${summaryText}</div>` : ''}
+            ${summaryText ? `<div class="card-readable">${summaryText}</div>` : ''}
           </div>
         </div>
-        <div class="out-card-bd">
-          <div class="bcol" onclick="(e) => e.stopPropagation()">
-             <div class="bcol-head bh-${CUR_META[code].class}">${CUR_META[code].name} Breakdown</div>
-             ${bdHtml}
+        <div class="card-drawer">
+          <div class="card-drawer-inner">
+            <div class="card-bd" onclick="event.stopPropagation()">
+               <div class="bcol">
+                 <div class="bcol-head bh-${C_META[code].class}">${C_META[code].name} Breakdown</div>
+                 ${bdHtml}
+               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -870,6 +868,9 @@ function computeCurrency() {
 setNumBase('JP');
 setCurBase('JPY');
 fetchExchangeRates();
+
+// Set initial view
+switchAppView('number');
 
 </script>
 </body>
