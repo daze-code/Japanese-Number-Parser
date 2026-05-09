@@ -69,7 +69,7 @@
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #534AB7, #1a1a1a);
+    background: linear-gradient(135deg, var(--jp-acc), var(--text-1));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: flex;
@@ -77,7 +77,7 @@
   }
   @media (prefers-color-scheme: dark) {
     .header-title {
-      background: linear-gradient(135deg, #AFA9EC, #ffffff);
+      background: linear-gradient(135deg, var(--jp-acc), #ffffff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -90,6 +90,24 @@
     -webkit-text-fill-color: var(--text-3);
   }
 
+  /* Hide INR Toggle */
+  .toggle-wrap { 
+    display: flex; align-items: center; gap: 8px; font-size: 11px; 
+    color: var(--text-3); font-weight: 500; cursor: pointer; user-select: none; 
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .toggle-box { 
+    width: 32px; height: 18px; background: var(--border-md); 
+    border-radius: 9px; position: relative; transition: 0.2s; 
+  }
+  .toggle-box::after { 
+    content:''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; 
+    background: var(--surface); border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.1); 
+  }
+  .toggle-wrap.active .toggle-box { background: var(--jp-acc); } 
+  .toggle-wrap.active .toggle-box::after { transform: translateX(14px); }
+  .toggle-wrap.active { color: var(--text-2); }
+
   /* Interactive About Accordion */
   details.about-box {
     background: var(--surface);
@@ -100,110 +118,66 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     transition: all 0.2s;
   }
-  details.about-box[open] {
-    padding-bottom: 18px;
-  }
+  details.about-box[open] { padding-bottom: 18px; }
   .about-summary {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-1);
-    cursor: pointer;
-    list-style: none; /* Hide default triangle */
-    outline: none;
-    user-select: none;
+    font-size: 14px; font-weight: 500; color: var(--text-1);
+    cursor: pointer; list-style: none; outline: none; user-select: none;
   }
   .about-summary::-webkit-details-marker { display: none; }
   .about-content {
-    margin-top: 12px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--text-2);
-    border-top: 0.5px solid var(--border);
-    padding-top: 12px;
+    margin-top: 12px; font-size: 13px; line-height: 1.5; color: var(--text-2);
+    border-top: 0.5px solid var(--border); padding-top: 12px;
   }
-  .about-content ul {
-    padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .about-content ul { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
   .about-content strong { color: var(--text-1); }
 
   /* App Navigation & Tooltips */
   .app-nav {
-    display: flex;
-    background: var(--surface);
-    border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md);
-    padding: 4px;
-    margin-bottom: 1.5rem;
+    display: flex; background: var(--surface); border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md); padding: 4px; margin-bottom: 1.5rem;
   }
   .app-tab {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-2);
-    cursor: pointer;
-    transition: all 0.15s;
+    flex: 1; padding: 10px; border: none; background: transparent; border-radius: 6px;
+    font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--text-2);
+    cursor: pointer; transition: all 0.15s;
   }
-  .app-tab.active {
-    background: var(--bg);
-    color: var(--text-1);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
+  .app-tab.active { background: var(--bg); color: var(--text-1); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-  .tooltip-wrap { position: relative; }
+  .tooltip-wrap { position: relative; cursor: help; }
   .tooltip-wrap::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--text-1);
-    color: var(--bg);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s, transform 0.2s;
-    z-index: 10;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    content: attr(data-tooltip); position: absolute; bottom: calc(100% + 8px); left: 50%;
+    transform: translateX(-50%); background: var(--text-1); color: var(--bg);
+    padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 500;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+    z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
-  .tooltip-wrap:hover::after, .tooltip-wrap:active::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-2px);
+  .tooltip-wrap:hover::after, .tooltip-wrap:active::after { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+
+  /* Primary Output Tooltip Modifier (Right-Aligned) */
+  .card-primary.tooltip-wrap::after {
+    left: auto; right: 0; transform: translateY(0); white-space: nowrap; font-family: var(--sans);
+  }
+  .card-primary.tooltip-wrap:hover::after, .card-primary.tooltip-wrap:active::after {
+    transform: translateY(-2px);
+  }
+  @media (max-width: 480px) {
+    .card-primary.tooltip-wrap::after {
+      white-space: normal; min-width: 220px; text-align: right;
+    }
   }
 
   .slabel {
-    font-size: 10px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--text-3);
-    margin-bottom: 8px;
-    font-weight: 500;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-3); margin-bottom: 8px; font-weight: 500;
   }
 
   /* Unit Pills */
   .pill-row { display: flex; flex-wrap: wrap; gap: 4px; }
   .chip {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4px 9px;
-    border-radius: var(--radius-sm);
-    border: 0.5px solid var(--border);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, transform 0.1s;
-    user-select: none;
-    min-width: 60px;
+    display: flex; flex-direction: column; align-items: center; padding: 4px 9px;
+    border-radius: var(--radius-sm); border: 0.5px solid var(--border);
+    cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    user-select: none; min-width: 60px;
   }
   .chip:hover { border-color: var(--border-md); transform: translateY(-1px); }
   .chip:active { transform: translateY(0); }
@@ -232,75 +206,44 @@
 
   /* Input Box */
   .input-area {
-    background: var(--surface);
-    border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
-    margin-bottom: 0.75rem;
+    background: var(--surface); border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 0.75rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   }
   .input-row { display: flex; align-items: center; gap: 8px; }
   .num-input {
-    font-family: var(--mono);
-    font-size: 28px;
-    font-weight: 500;
-    border: none;
-    background: transparent;
-    color: var(--text-1);
-    outline: none;
-    min-width: 0;
-    flex: 1;
-    -moz-appearance: textfield;
+    font-family: var(--mono); font-size: 28px; font-weight: 500; border: none;
+    background: transparent; color: var(--text-1); outline: none; min-width: 0;
+    flex: 1; -moz-appearance: textfield;
   }
   .num-input::-webkit-outer-spin-button,
   .num-input::-webkit-inner-spin-button { -webkit-appearance: none; }
   .num-input::placeholder { color: var(--text-3); opacity: 0.6; }
 
   .ghost-text {
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-3);
-    margin-top: 6px;
-    min-height: 20px;
+    font-family: var(--sans); font-size: 14px; font-weight: 500;
+    color: var(--text-3); margin-top: 6px; min-height: 20px;
   }
 
   .unit-tag {
-    font-size: 14px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 6px;
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-size: 14px; font-weight: 500; padding: 4px 10px; border-radius: 6px;
+    white-space: nowrap; flex-shrink: 0;
   }
   .utag-jp { background: var(--jp-bg); color: var(--jp-dark); }
   .utag-in { background: var(--in-bg); color: var(--in-dark); }
   .utag-en { background: var(--en-bg); color: var(--en-dark); }
 
   .copy-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-3);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    border-radius: 4px;
-    transition: background 0.15s, color 0.15s;
+    background: transparent; border: none; color: var(--text-3); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 6px;
+    border-radius: 4px; transition: background 0.15s, color 0.15s;
   }
   .copy-btn:hover { background: var(--border); color: var(--text-1); }
 
   /* API Status */
   .currency-status {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-3);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-3); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
   }
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #e0e0e0; transition: background 0.3s; }
   .status-dot.active { background: #4caf50; }
@@ -308,22 +251,13 @@
 
   /* Output Cards */
   .card {
-    background: var(--surface);
-    border: 0.5px solid var(--border-md);
-    border-radius: var(--radius-md);
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    overflow: hidden;
+    background: var(--surface); border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md); margin-bottom: 8px; cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s; overflow: hidden;
   }
   .card:hover { border-color: var(--text-3); box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
   
-  .card-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-  }
+  .card-main { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; }
   
   .card-left { display: flex; align-items: center; gap: 12px; }
   .card-flag { font-size: 20px; }
@@ -350,26 +284,16 @@
 
   /* Accordion Breakdown */
   .card-drawer {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s ease-out;
-    background: var(--bg);
+    display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease-out; background: var(--bg);
   }
   .card.expanded .card-drawer { grid-template-rows: 1fr; }
   
   .card-drawer-inner { overflow: hidden; }
-  .card-bd {
-    border-top: 0.5px solid var(--border);
-    padding: 14px 20px;
-  }
+  .card-bd { border-top: 0.5px solid var(--border); padding: 14px 20px; }
   .card-bd .bcol { max-width: 240px; margin-left: auto; }
   
   .brow {
-    display: flex;
-    justify-content: flex-start;
-    align-items: baseline;
-    padding: 4px 0;
-    border-bottom: 0.5px solid var(--border);
+    display: flex; justify-content: flex-start; align-items: baseline; padding: 4px 0; border-bottom: 0.5px solid var(--border);
   }
   .brow:last-child { border-bottom: none; }
   .bval { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text-1); width: 60px; text-align: right; margin-right: 14px; }
@@ -377,14 +301,8 @@
   .bname { font-size: 12px; color: var(--text-2); }
 
   .bcol-head {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    display: inline-block;
+    font-size: 10px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase;
+    margin-bottom: 12px; padding: 3px 8px; border-radius: 4px; display: inline-block;
   }
   .bh-jp { background: var(--jp-bg); color: var(--jp-acc); }
   .bh-in { background: var(--in-bg); color: var(--in-acc); }
@@ -400,6 +318,11 @@
 
   <div class="header">
     <div class="header-title">JP-EN Number Parser <span>数字変換機</span></div>
+    
+    <div class="toggle-wrap tooltip-wrap" data-tooltip="Remove Indian formats for a simpler interface" id="toggle-inr-btn" onclick="toggleINR()">
+      Hide INR
+      <div class="toggle-box"></div>
+    </div>
   </div>
 
   <details class="about-box">
@@ -428,7 +351,7 @@
         <div class="chip chip-en" onclick="setNumBase('EN')">
           <span class="chip-top" style="margin: 4px 0;">English</span>
         </div>
-        <div class="chip chip-in" onclick="setNumBase('IN')">
+        <div class="chip chip-in" id="num-base-in" onclick="setNumBase('IN')">
           <span class="chip-top" style="margin: 4px 0;">Indian</span>
         </div>
       </div>
@@ -462,7 +385,7 @@
         <div class="chip chip-en" onclick="setCurBase('USD')">
           <span class="chip-top">USD</span><span class="chip-bot">$ Dollar</span>
         </div>
-        <div class="chip chip-in" onclick="setCurBase('INR')">
+        <div class="chip chip-in" id="cur-base-in" onclick="setCurBase('INR')">
           <span class="chip-top">INR</span><span class="chip-bot">₹ Rupee</span>
         </div>
       </div>
@@ -522,10 +445,28 @@ let numBase = 'JP', numSi = 1;
 let curBase = 'JPY', curSi = 0; 
 let rates = { USD: 0, INR: 0 };
 let ratesActive = false;
+let hideINR = false;
 
 /* ==========================================
    SHARED UTILITIES
 ========================================== */
+function toggleINR() {
+  hideINR = !hideINR;
+  const btn = document.getElementById('toggle-inr-btn');
+  btn.classList.toggle('active', hideINR);
+  
+  document.getElementById('num-base-in').style.display = hideINR ? 'none' : 'flex';
+  document.getElementById('cur-base-in').style.display = hideINR ? 'none' : 'flex';
+
+  if (hideINR && numBase === 'IN') setNumBase('JP');
+  if (hideINR && curBase === 'INR') setCurBase('JPY');
+
+  renderNumPills();
+  renderCurPills();
+  computeNum();
+  computeCurrency();
+}
+
 function switchAppView(view) {
   document.getElementById('view-number').style.display = view === 'number' ? 'block' : 'none';
   document.getElementById('view-currency').style.display = view === 'currency' ? 'block' : 'none';
@@ -541,14 +482,13 @@ function toggleCard(elem) {
 }
 
 function copyVal(e, val) {
-  e.stopPropagation(); // Prevents card from collapsing
+  e.stopPropagation(); 
   navigator.clipboard.writeText(val.toString());
   const btn = e.currentTarget;
   btn.innerHTML = CHECK_ICON;
   setTimeout(() => { btn.innerHTML = COPY_ICON; }, 1500);
 }
 
-// Reusable DOM Pill Generator
 function getPillHtml(pillArray, activeIdx, groupClass, clickHandlerName) {
   return pillArray.map((u, i) => {
     const isDirect = i === 0;
@@ -561,22 +501,21 @@ function getPillHtml(pillArray, activeIdx, groupClass, clickHandlerName) {
   }).join('');
 }
 
-// Smart Number Readables
 function getSummaryText(total, code) {
   const isCur = ['JPY','USD','INR'].includes(code);
   const mappedCode = isCur ? (code === 'JPY' ? 'JP' : code === 'USD' ? 'EN' : 'IN') : code;
   
   const originalTotal = total;
-  total = Math.floor(Math.abs(total)); // Use absolute for breakdown logic
-  if (total === 0) return '0'; // default string to avoid blanks on pure zero
+  total = Math.floor(Math.abs(total)); 
+  if (total === 0) return '0'; 
   
   let parts = [];
   if (mappedCode === 'JP') {
     const cho = Math.floor(total / 1e12), oku = Math.floor((total % 1e12) / 1e8), man = Math.floor((total % 1e8) / 1e4), sen = Math.floor((total % 1e4) / 1e3);
-    if (cho) parts.push(`${cho}兆 (chō)`);
-    if (oku) parts.push(`${oku}億 (oku)`);
-    if (man) parts.push(`${man}万 (man)`);
-    if (sen && parts.length < 2) parts.push(`${sen}千 (sen)`);
+    if (cho) parts.push(`${cho}兆`);
+    if (oku) parts.push(`${oku}億`);
+    if (man) parts.push(`${man}万`);
+    if (sen && parts.length < 2) parts.push(`${sen}千`);
   } else if (mappedCode === 'EN') {
     const t = Math.floor(total / 1e12), b = Math.floor((total % 1e12) / 1e9), m = Math.floor((total % 1e9) / 1e6), k = Math.floor((total % 1e6) / 1e3);
     const suffix = isCur ? ['T','B','M','K'] : [' Trillion',' Billion',' Million',' Thousand'];
@@ -596,7 +535,6 @@ function getSummaryText(total, code) {
   const locale = isCur ? C_META[code].locale : N_META[code].locale;
   const sign = originalTotal < 0 ? '-' : '';
   
-  // If we couldn't parse groups natively, fallback to properly formatted raw numbers
   return parts.length > 0 
     ? sign + parts.slice(0, 2).join(joiner) 
     : Number(originalTotal).toLocaleString(locale, { maximumFractionDigits: 0 }); 
@@ -607,7 +545,7 @@ function getBreakdownHtml(totalNum, group) {
   let rows = [];
   if (group === 'jp') {
     const cho=Math.floor(total/1e12),oku=Math.floor((total%1e12)/1e8),man=Math.floor((total%1e8)/1e4), sen=Math.floor((total%1e4)/1e3),hya=Math.floor((total%1e3)/100),ju=Math.floor((total%100)/10),ichi=total%10;
-    rows = [ {l:'兆 chō',v:cho},{l:'億 oku',v:oku},{l:'万 man',v:man}, {l:'千 sen',v:sen},{l:'百 hyaku',v:hya},{l:'十 jū',v:ju},{l:'一 ichi',v:ichi} ];
+    rows = [ {l:'兆',v:cho},{l:'億',v:oku},{l:'万',v:man}, {l:'千',v:sen},{l:'百',v:hya},{l:'十',v:ju},{l:'一',v:ichi} ];
   } else if (group === 'in') {
     const crV=Math.floor(total/1e7),lakhV=Math.floor((total%1e7)/1e5), thouI=Math.floor((total%1e5)/1e3),hunI=Math.floor((total%1e3)/100), tenI=Math.floor((total%100)/10),oneI=total%10;
     rows = [ {l:'Crore',v:crV},{l:'Lakh',v:lakhV},{l:'Thousand',v:thouI}, {l:'Hundred',v:hunI},{l:'Tens',v:tenI},{l:'Ones',v:oneI} ];
@@ -624,15 +562,13 @@ function getBreakdownHtml(totalNum, group) {
 ========================================== */
 function setNumBase(code) {
   numBase = code;
-  numSi = 1; // Default to Unit pill for Numbers
+  numSi = 1; 
   
-  // Toggle active base chip
   const bases = document.getElementById('num-base-pills').children;
   Array.from(bases).forEach((child, idx) => {
       child.classList.toggle('on', idx === (code === 'JP' ? 0 : code === 'EN' ? 1 : 2));
   });
   
-  // Manage safe Placeholder transitions (Target 8 Million proportional default)
   const valInput = document.getElementById('num-val');
   if(!valInput.value) { 
     valInput.placeholder = code === 'JP' ? '800' : code === 'EN' ? '8' : '80'; 
@@ -648,14 +584,12 @@ function renderNumPills() {
 }
 
 function selNumPill(i) {
-  if (numSi === i) return; // Prevent wipe
+  if (numSi === i) return; 
   numSi = i;
   
-  // Cheap DOM update instead of full rebuild
   const pills = document.getElementById('num-pills').children;
   Array.from(pills).forEach((child, idx) => child.classList.toggle('on', idx === i));
   
-  // Handle Placeholders targeting "8000000" logic
   const valInput = document.getElementById('num-val');
   if(!valInput.value) {
     if(numSi === 0) { 
@@ -664,7 +598,6 @@ function selNumPill(i) {
       valInput.placeholder = numBase === 'JP' ? '800' : numBase === 'EN' ? '8' : '80';
     }
   }
-  
   computeNum();
 }
 
@@ -672,7 +605,7 @@ function computeNum() {
   const inputEl = document.getElementById('num-val');
   let rawInput = parseFloat(inputEl.value);
   if (isNaN(rawInput)) rawInput = parseFloat(inputEl.placeholder);
-  if (isNaN(rawInput)) rawInput = 0; // Absolute fallback
+  if (isNaN(rawInput)) rawInput = 0; 
 
   const pill = PILLS_MAP[numBase][numSi];
   const total = rawInput * pill.m;
@@ -681,26 +614,30 @@ function computeNum() {
   const tag = document.getElementById('num-tag');
   const ghost = document.getElementById('num-ghost');
   
-  // Input UI State
-  if (numSi === 0) { // Direct Mode
+  if (numSi === 0) { 
     tag.style.display = 'none';
     ghost.style.display = 'none'; 
-  } else { // Unit Mode
+  } else { 
     tag.style.display = 'inline-block';
     tag.innerHTML = pill.t; 
     tag.className = `unit-tag utag-${meta.class}`;
     ghost.style.display = 'none';
   }
 
-  // Render Output
   let outputHtml = '';
   ['JP', 'EN', 'IN'].forEach(code => {
+    if (hideINR && code === 'IN') return;
+
     const isBase = code === numBase;
     const formatted = new Intl.NumberFormat(N_META[code].locale, { maximumFractionDigits: 0 }).format(total);
     const readableText = getSummaryText(total, code);
     
-    // Clean logic: If summary text is exactly the same as formatted raw numbers, hide subtext.
     const subTextHtml = readableText !== formatted ? `<div class="card-val-sub">${formatted}</div>` : '';
+    
+    // Generate Hover Alternate Readings
+    const sysCode = code; 
+    const otherSys = ['JP', 'EN', 'IN'].filter(s => s !== sysCode && (!hideINR || s !== 'IN'));
+    const altText = otherSys.map(sys => `${getSummaryText(total, sys)} (${N_META[sys].name})`).join('  |  ');
     
     const bdHtml = getBreakdownHtml(total, N_META[code].group);
     const copyData = Math.round(total);
@@ -715,7 +652,7 @@ function computeNum() {
           </div>
           <div class="card-right">
             <div class="card-val-row">
-              <div class="card-primary highlight-${code}">${readableText}</div>
+              <div class="card-primary highlight-${code} tooltip-wrap" data-tooltip="${altText}">${readableText}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
@@ -760,13 +697,13 @@ async function fetchExchangeRates() {
   } catch (error) {
     dot.className = 'status-dot error';
     text.textContent = 'Live Rates Offline';
-    computeCurrency(); // Run to render base block
+    computeCurrency(); 
   }
 }
 
 function setCurBase(code) {
   curBase = code;
-  curSi = 0; // Default to Direct
+  curSi = 0; 
   
   const bases = document.getElementById('cur-base-pills').children;
   Array.from(bases).forEach((child, idx) => {
@@ -807,7 +744,6 @@ function selCurPill(i) {
       else { valInput.placeholder = '50000'; }
     }
   }
-  
   computeCurrency();
 }
 
@@ -843,6 +779,7 @@ function computeCurrency() {
 
   let outputHtml = '';
   ['JPY', 'USD', 'INR'].forEach(code => {
+    if (hideINR && code === 'INR') return;
     if (!ratesActive && code !== curBase) return;
       
     let outVal = total; 
@@ -860,9 +797,13 @@ function computeCurrency() {
     const formatted = new Intl.NumberFormat(C_META[code].locale, { style: 'currency', currency: code, maximumFractionDigits: 0 }).format(outVal);
     const readableText = getSummaryText(outVal, code);
     
-    // Check if the formatted raw version strictly overlaps with readable text fallback
     const rawCheck = new Intl.NumberFormat(C_META[code].locale, { maximumFractionDigits: 0 }).format(outVal);
     const subTextHtml = readableText !== rawCheck ? `<div class="card-val-sub">${formatted}</div>` : '';
+    
+    // Generate Hover Alternate Readings natively avoiding currency suffixes
+    const sysCode = code === 'JPY' ? 'JP' : code === 'USD' ? 'EN' : 'IN';
+    const otherSys = ['JP', 'EN', 'IN'].filter(s => s !== sysCode && (!hideINR || s !== 'IN'));
+    const altText = otherSys.map(sys => `${getSummaryText(outVal, sys)} (${N_META[sys].name})`).join('  |  ');
     
     const bdHtml = getBreakdownHtml(outVal, C_META[code].group);
     const copyData = Math.round(outVal);
@@ -878,7 +819,7 @@ function computeCurrency() {
           </div>
           <div class="card-right">
             <div class="card-val-row">
-              <div class="card-primary highlight-${code}">${readableText}</div>
+              <div class="card-primary highlight-${code} tooltip-wrap" data-tooltip="${altText}">${readableText}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
