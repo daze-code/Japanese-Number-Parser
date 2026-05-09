@@ -90,20 +90,46 @@
     -webkit-text-fill-color: var(--text-3);
   }
 
-  .about-box {
+  /* Interactive About Accordion */
+  details.about-box {
     background: var(--surface);
     border: 0.5px solid var(--border-md);
     border-radius: var(--radius-md);
     padding: 14px 18px;
     margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: all 0.2s;
+  }
+  details.about-box[open] {
+    padding-bottom: 18px;
+  }
+  .about-summary {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-1);
+    cursor: pointer;
+    list-style: none; /* Hide default triangle */
+    outline: none;
+    user-select: none;
+  }
+  .about-summary::-webkit-details-marker { display: none; }
+  .about-content {
+    margin-top: 12px;
     font-size: 13px;
     line-height: 1.5;
     color: var(--text-2);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    border-top: 0.5px solid var(--border);
+    padding-top: 12px;
   }
-  .about-box strong { color: var(--text-1); }
+  .about-content ul {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .about-content strong { color: var(--text-1); }
 
-  /* App Navigation */
+  /* App Navigation & Tooltips */
   .app-nav {
     display: flex;
     background: var(--surface);
@@ -129,6 +155,31 @@
     background: var(--bg);
     color: var(--text-1);
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .tooltip-wrap { position: relative; }
+  .tooltip-wrap::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-1);
+    color: var(--bg);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .tooltip-wrap:hover::after, .tooltip-wrap:active::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px);
   }
 
   .slabel {
@@ -282,8 +333,20 @@
   
   .card-right { text-align: right; }
   .card-val-row { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
-  .card-val { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--text-1); }
-  .card-readable { font-family: var(--sans); font-size: 13px; color: var(--text-3); margin-top: 4px; font-weight: 500; }
+  
+  /* Primary readable formats */
+  .card-primary { font-family: var(--sans); font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .card-primary.highlight-JP, .card-primary.highlight-JPY { color: var(--jp-dark); }
+  .card-primary.highlight-EN, .card-primary.highlight-USD { color: var(--en-dark); }
+  .card-primary.highlight-IN, .card-primary.highlight-INR { color: var(--in-dark); }
+  @media (prefers-color-scheme: dark) {
+    .card-primary.highlight-JP, .card-primary.highlight-JPY { color: var(--jp-acc); }
+    .card-primary.highlight-EN, .card-primary.highlight-USD { color: var(--en-acc); }
+    .card-primary.highlight-IN, .card-primary.highlight-INR { color: var(--in-acc); }
+  }
+
+  /* Sub grey format */
+  .card-val-sub { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 2px; font-weight: 500; text-align: right; }
 
   /* Accordion Breakdown */
   .card-drawer {
@@ -339,19 +402,25 @@
     <div class="header-title">JP-EN Number Parser <span>数字変換機</span></div>
   </div>
 
-  <div class="about-box">
-    <strong>💡 Instantly parse numbers across borders.</strong><br>
-    Translate massive figures natively between Japanese (万/億), Indian (Lakh/Crore), and Western formats. Flawless, deterministic parsing—no more comma-counting or AI hallucinations.
-  </div>
+  <details class="about-box">
+    <summary class="about-summary"><strong>💡 Why use this tool?</strong> <span style="color:var(--text-3); font-weight:400; font-size:12px; margin-left:6px;">(Click to expand)</span></summary>
+    <div class="about-content">
+      <ul>
+        <li><strong>The Formatting Gap:</strong> Standard converters and Google throw raw numbers at you (e.g., 250,000,000). They don't account for regional formatting, making it difficult to instantly read figures in <em>Man/Oku</em>, <em>Millions/Billions</em>, or <em>Lakhs/Crores</em>.</li>
+        <li><strong>Zero Hallucinations:</strong> Asking an AI or LLM to perform complex cross-cultural math conversions often results in number hallucinations, decimal errors, and slow wait times.</li>
+        <li><strong>Instant Context:</strong> This tool's biggest value isn't just instant translation; it immediately contextualizes the result based on the specific units you want to read. No more mental gymnastics or counting commas and zeros!</li>
+      </ul>
+    </div>
+  </details>
 
   <div class="app-nav">
-    <button class="app-tab active" id="tab-num" onclick="switchAppView('number')">Number Mode</button>
-    <button class="app-tab" id="tab-cur" onclick="switchAppView('currency')">Currency Mode</button>
+    <button class="app-tab active tooltip-wrap" data-tooltip="Translate native unit scales (e.g. 800万 to Millions)" id="tab-num" onclick="switchAppView('number')">Number Mode</button>
+    <button class="app-tab tooltip-wrap" data-tooltip="Convert live currencies natively (e.g. JPY to INR)" id="tab-cur" onclick="switchAppView('currency')">Currency Mode</button>
   </div>
 
   <div id="view-number">
     <div class="unit-section" style="margin-bottom: 1rem;">
-      <div class="slabel">1. Origin Format</div>
+      <div class="slabel">Origin Format</div>
       <div class="pill-row" id="num-base-pills">
         <div class="chip chip-jp on" onclick="setNumBase('JP')">
           <span class="chip-top" style="margin: 4px 0;">Japanese</span>
@@ -366,7 +435,7 @@
     </div>
 
     <div class="unit-section">
-      <div class="slabel">2. Input Number</div>
+      <div class="slabel">Input Number</div>
       <div class="pill-row" id="num-pills"></div>
     </div>
 
@@ -378,7 +447,7 @@
       <div class="ghost-text" id="num-ghost"></div>
     </div>
 
-    <div class="slabel" style="margin-bottom: 10px;">3. Formatted Translations</div>
+    <div class="slabel" style="margin-bottom: 10px;">Formatted Translations</div>
     <div id="num-output"></div>
   </div>
 
@@ -445,7 +514,7 @@ const DIRECT_PILL = { t: 'Direct Input', b: 'Raw', m: 1 };
 const PILLS_MAP = {
   JP: [ DIRECT_PILL, {t:'万 <span style="font-size:0.85em;font-weight:400;opacity:0.75">man</span>', b:'10,000', m:1e4}, {t:'億 <span style="font-size:0.85em;font-weight:400;opacity:0.75">oku</span>', b:'100,000,000', m:1e8}, {t:'兆 <span style="font-size:0.85em;font-weight:400;opacity:0.75">chō</span>', b:'1,000,000,000,000', m:1e12} ],
   EN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Million', b:'1,000,000', m:1e6}, {t:'Billion', b:'1,000,000,000', m:1e9} ],
-  IN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Lakh', b:'1,00,000', m:1e5}, {t:'Crore', b:'1,00,00,000', m:1e7} ]
+  IN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Lakh', b:'1,00,000', m:1e5}, {t:'Crore', b:'1,00,000,000', m:1e7} ]
 };
 
 // Global State
@@ -499,7 +568,7 @@ function getSummaryText(total, code) {
   
   const originalTotal = total;
   total = Math.floor(Math.abs(total)); // Use absolute for breakdown logic
-  if (total === 0) return '';
+  if (total === 0) return '0'; // default string to avoid blanks on pure zero
   
   let parts = [];
   if (mappedCode === 'JP') {
@@ -527,6 +596,7 @@ function getSummaryText(total, code) {
   const locale = isCur ? C_META[code].locale : N_META[code].locale;
   const sign = originalTotal < 0 ? '-' : '';
   
+  // If we couldn't parse groups natively, fallback to properly formatted raw numbers
   return parts.length > 0 
     ? sign + parts.slice(0, 2).join(joiner) 
     : Number(originalTotal).toLocaleString(locale, { maximumFractionDigits: 0 }); 
@@ -562,10 +632,10 @@ function setNumBase(code) {
       child.classList.toggle('on', idx === (code === 'JP' ? 0 : code === 'EN' ? 1 : 2));
   });
   
-  // Manage safe Placeholder transitions
+  // Manage safe Placeholder transitions (Target 8 Million proportional default)
   const valInput = document.getElementById('num-val');
   if(!valInput.value) { 
-    valInput.placeholder = code === 'JP' ? '200' : code === 'EN' ? '2' : '20'; 
+    valInput.placeholder = code === 'JP' ? '800' : code === 'EN' ? '8' : '80'; 
   }
   
   renderNumPills();
@@ -585,13 +655,13 @@ function selNumPill(i) {
   const pills = document.getElementById('num-pills').children;
   Array.from(pills).forEach((child, idx) => child.classList.toggle('on', idx === i));
   
-  // Handle Placeholders without touching user data
+  // Handle Placeholders targeting "8000000" logic
   const valInput = document.getElementById('num-val');
   if(!valInput.value) {
     if(numSi === 0) { 
-      valInput.placeholder = '2000000';
+      valInput.placeholder = '8000000';
     } else {
-      valInput.placeholder = numBase === 'JP' ? '200' : numBase === 'EN' ? '2' : '20';
+      valInput.placeholder = numBase === 'JP' ? '800' : numBase === 'EN' ? '8' : '80';
     }
   }
   
@@ -614,10 +684,10 @@ function computeNum() {
   // Input UI State
   if (numSi === 0) { // Direct Mode
     tag.style.display = 'none';
-    ghost.style.display = 'none'; // Purposefully removed for Direct input
+    ghost.style.display = 'none'; 
   } else { // Unit Mode
     tag.style.display = 'inline-block';
-    tag.innerHTML = pill.t; // Changed to innerHTML to process Romaji span hints natively
+    tag.innerHTML = pill.t; 
     tag.className = `unit-tag utag-${meta.class}`;
     ghost.style.display = 'none';
   }
@@ -627,7 +697,11 @@ function computeNum() {
   ['JP', 'EN', 'IN'].forEach(code => {
     const isBase = code === numBase;
     const formatted = new Intl.NumberFormat(N_META[code].locale, { maximumFractionDigits: 0 }).format(total);
-    const summaryText = getSummaryText(total, code);
+    const readableText = getSummaryText(total, code);
+    
+    // Clean logic: If summary text is exactly the same as formatted raw numbers, hide subtext.
+    const subTextHtml = readableText !== formatted ? `<div class="card-val-sub">${formatted}</div>` : '';
+    
     const bdHtml = getBreakdownHtml(total, N_META[code].group);
     const copyData = Math.round(total);
     const baseTag = isBase ? `<div class="base-badge">INPUT</div>` : '';
@@ -641,11 +715,11 @@ function computeNum() {
           </div>
           <div class="card-right">
             <div class="card-val-row">
-              <div class="card-val">${formatted}</div>
+              <div class="card-primary highlight-${code}">${readableText}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
-            ${summaryText ? `<div class="card-readable">${summaryText}</div>` : ''}
+            ${subTextHtml}
           </div>
         </div>
         <div class="card-drawer">
@@ -762,14 +836,13 @@ function computeCurrency() {
     }
   } else { 
     tag.style.display = 'inline-block';
-    tag.innerHTML = pill.t; // innerHTML for romaji styling
+    tag.innerHTML = pill.t; 
     tag.className = `unit-tag utag-${meta.class}`;
     ghost.style.display = 'none';
   }
 
   let outputHtml = '';
   ['JPY', 'USD', 'INR'].forEach(code => {
-    // Offline bypass safety
     if (!ratesActive && code !== curBase) return;
       
     let outVal = total; 
@@ -785,7 +858,12 @@ function computeCurrency() {
     }
 
     const formatted = new Intl.NumberFormat(C_META[code].locale, { style: 'currency', currency: code, maximumFractionDigits: 0 }).format(outVal);
-    const summaryText = getSummaryText(outVal, code);
+    const readableText = getSummaryText(outVal, code);
+    
+    // Check if the formatted raw version strictly overlaps with readable text fallback
+    const rawCheck = new Intl.NumberFormat(C_META[code].locale, { maximumFractionDigits: 0 }).format(outVal);
+    const subTextHtml = readableText !== rawCheck ? `<div class="card-val-sub">${formatted}</div>` : '';
+    
     const bdHtml = getBreakdownHtml(outVal, C_META[code].group);
     const copyData = Math.round(outVal);
     
@@ -800,11 +878,11 @@ function computeCurrency() {
           </div>
           <div class="card-right">
             <div class="card-val-row">
-              <div class="card-val">${formatted}</div>
+              <div class="card-primary highlight-${code}">${readableText}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
-            ${summaryText ? `<div class="card-readable">${summaryText}</div>` : ''}
+            ${subTextHtml}
           </div>
         </div>
         <div class="card-drawer">
