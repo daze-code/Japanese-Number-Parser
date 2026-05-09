@@ -1,27 +1,31 @@
-# Japanese-Number-Converter
+# JP-EN Number Parser (数字変換機)
 
+A clean, responsive, and locally-run browser tool designed to instantly bridge the gap between **Japanese**, **Indian**, and **Western** numbering systems and currencies.
 
 ### 🌉 The Problem: The "Cultural Number" Barrier
+Translating numbers across borders isn't just about math; it's about **linguistic structure**. Western numbers group as (Millions, Billions), Japanese numbers group as (Man<万>, Oku<億>), and Indian numbers group as (Lakhs, Crores). 
 
-Translating massive numbers across borders isn't just about math or exchange rates; it's about **linguistic structure**. Western numbers group by thousands (Millions, Billions), Japanese numbers group by ten-thousands (万<Man>, 億<Oku>), and Indian numbers group by hundreds (Lakhs, Crores).
+When you hear that the budget for a Japanese project is **"2億5千万"**, traditional calculators and Google just spit out a wall of commas like `250,000,000`, forcing you to mentally count the zeros to figure out what that actually means. Meanwhile, AI chatbots frequently hallucinate decimal places when converting complex cultural math.
 
-When you hear *"The project cost 150億 Yen"* on the news, traditional tools fail to give you an intuitive answer.
+### 🚀 The Solution
+This tool is built specifically for **cognitive offloading and 100% deterministic accuracy.** * **Native Formatting:** It doesn't just do the math; it translates the *language* of the number. It instantly tells you that **2億5千万** is exactly **250 Million** or **25 Crore**.
+* **Context-Aware Inputs:** You don't have to type `250000000`. You can just type `2.5` and click the `億` (Oku) pill. 
+* **Zero Hallucinations:** Because it runs on hardcoded, localized math rather than AI prediction, you never have to second-guess the output. 
 
-### 🚀 Why Use This Parser? (Vs. The Alternatives)
+## ✨ Core Features
 
-**❌ Why not Google Search / Standard Calculators?**
-If you type `150,000,000,000 JPY to USD` into Google, it spits out a wall of numbers: `$992,345.50`. You are still forced to mentally count commas to figure out if that is 900 Thousand, 9 Million, or 90 Million. Standard calculators don't speak in "Millions," "Lakhs," or "Oku."
+* **Number Mode:** Quickly translate pure figures (like "6700万 visitors") natively between Western, Indian, and Japanese formats.
+* **Currency Mode:** Convert live exchange rates between JPY, USD, and INR natively (powered by ExchangeRate-API). Output values are cleanly rounded to zero decimal places for rapid reading.
+* **Native Breakdowns:** Expand any output card to see exactly how that massive number breaks down into native counting groups (e.g., seeing exactly how many *Lakhs* or *Man* are in a converted value).
+* **Persistent Data:** Switch seamlessly between "Direct Input" and Unit Multipliers without losing the numbers you've actively typed.
 
-**❌ Why not ChatGPT / Claude?**
-LLMs are language prediction engines, not calculators. When dealing with multi-layered conversions (e.g., translating *150 億 Yen* into *Lakh Rupees* at a live exchange rate), LLMs frequently hallucinate zeros, misplace decimal points, or confidently give you completely wrong financial math.
+## 💻 How to Use
 
-**✅ The Solution: The JP-EN Number Parser**
-This tool is built specifically for **cognitive offloading and 100% deterministic accuracy.** * **Native Formatting:** It doesn't just do the math; it translates the *language* of the number. It instantly tells you that `150億 Yen` is `$992 Million` or `8.3 Crore Rupees`.
+No installation required! This is a completely static, client-side web application.
 
-* **Zero Hallucinations:** Because it runs on hardcoded, deterministic math rather than AI prediction, you never have to second-guess the output.
-* **Context-Aware Inputs:** You don't have to type `15000000000`. You just type `150` and click the `億` (Oku) pill.
-* **Instant Readability Breakdown:** With one click, the expandable drawer shows you exactly how to read the number aloud in the local format, eliminating the need to ever count zeros again.
+1. Download or clone this repository.
+2. Double click `index.html` to open it in your browser.
 
----
-
-**In short:** Google gives you raw digits. LLMs give you unreliable guesses. This parser gives you instant, mathematically flawless **fluency**.
+### 💡 Quick Tips
+* **Copy Quickly:** Click the copy icon `📋` next to any result to instantly copy the exact, clean value to your clipboard.
+* **Offline Mode:** If you lose your internet connection, the tool safely disables the exchange rate API but continues to allow you to use the pure **Number Mode** and visual breakdowns natively on your device.
