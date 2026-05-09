@@ -1,8 +1,5 @@
 # Japanese-Number-Converter
 
-Here is a punchy, consolidated summary of the tool’s value proposition. You can use this for your README, a portfolio showcase, or a landing page to instantly communicate *why* this tool exists and why it’s better than the alternatives.
-
----
 
 ### 🌉 The Problem: The "Cultural Number" Barrier
 
