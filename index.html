@@ -153,19 +153,6 @@
   }
   .tooltip-wrap:hover::after, .tooltip-wrap:active::after { opacity: 1; transform: translateX(-50%) translateY(-2px); }
 
-  /* Primary Output Tooltip Modifier (Right-Aligned) */
-  .card-primary.tooltip-wrap::after {
-    left: auto; right: 0; transform: translateY(0); white-space: nowrap; font-family: var(--sans);
-  }
-  .card-primary.tooltip-wrap:hover::after, .card-primary.tooltip-wrap:active::after {
-    transform: translateY(-2px);
-  }
-  @media (max-width: 480px) {
-    .card-primary.tooltip-wrap::after {
-      white-space: normal; min-width: 220px; text-align: right;
-    }
-  }
-
   .slabel {
     font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
     color: var(--text-3); margin-bottom: 8px; font-weight: 500;
@@ -283,27 +270,40 @@
   .card-val-sub { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 2px; font-weight: 500; text-align: right; }
 
   /* Accordion Breakdown */
-  .card-drawer {
-    display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease-out; background: var(--bg);
-  }
+  .card-drawer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease-out; background: var(--bg); }
   .card.expanded .card-drawer { grid-template-rows: 1fr; }
-  
   .card-drawer-inner { overflow: hidden; }
-  .card-bd { border-top: 0.5px solid var(--border); padding: 14px 20px; }
-  .card-bd .bcol { max-width: 240px; margin-left: auto; }
   
-  .brow {
-    display: flex; justify-content: flex-start; align-items: baseline; padding: 4px 0; border-bottom: 0.5px solid var(--border);
+  /* Split Layout for Drawer */
+  .card-bd { 
+    border-top: 0.5px solid var(--border); padding: 14px 20px; 
+    display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; 
   }
+  .bcol-left { flex: 1; min-width: 180px; }
+  .card-bd .bcol { flex: 1; min-width: 160px; max-width: 240px; margin-left: auto; }
+  
+  @media(max-width: 480px) {
+    .card-bd { flex-direction: column; gap: 16px; }
+    .card-bd .bcol { margin-left: 0; max-width: 100%; }
+  }
+
+  .brow { display: flex; justify-content: flex-start; align-items: baseline; padding: 4px 0; border-bottom: 0.5px solid var(--border); }
   .brow:last-child { border-bottom: none; }
   .bval { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text-1); width: 60px; text-align: right; margin-right: 14px; }
   .bval.z { color: var(--text-3); font-weight: 400; }
   .bname { font-size: 12px; color: var(--text-2); }
 
+  /* Alternative Readings Layout */
+  .alt-row { display: flex; align-items: baseline; padding: 4px 0; border-bottom: 0.5px solid var(--border); }
+  .alt-row:last-child { border-bottom: none; }
+  .alt-label { color: var(--text-2); font-size: 12px; width: 85px; }
+  .alt-val { color: var(--text-1); font-weight: 500; font-family: var(--sans); font-size: 13px; }
+
   .bcol-head {
     font-size: 10px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase;
     margin-bottom: 12px; padding: 3px 8px; border-radius: 4px; display: inline-block;
   }
+  .bh-alt { background: var(--surface); color: var(--text-2); border: 0.5px solid var(--border); }
   .bh-jp { background: var(--jp-bg); color: var(--jp-acc); }
   .bh-in { background: var(--in-bg); color: var(--in-acc); }
   .bh-en { background: var(--en-bg); color: var(--en-acc); }
@@ -337,45 +337,12 @@
   </details>
 
   <div class="app-nav">
-    <button class="app-tab active tooltip-wrap" data-tooltip="Translate native unit scales (e.g. 800万 to Millions)" id="tab-num" onclick="switchAppView('number')">Number Mode</button>
-    <button class="app-tab tooltip-wrap" data-tooltip="Convert live currencies natively (e.g. JPY to INR)" id="tab-cur" onclick="switchAppView('currency')">Currency Mode</button>
-  </div>
-
-  <div id="view-number">
-    <div class="unit-section" style="margin-bottom: 1rem;">
-      <div class="slabel">Origin Format</div>
-      <div class="pill-row" id="num-base-pills">
-        <div class="chip chip-jp on" onclick="setNumBase('JP')">
-          <span class="chip-top" style="margin: 4px 0;">Japanese</span>
-        </div>
-        <div class="chip chip-en" onclick="setNumBase('EN')">
-          <span class="chip-top" style="margin: 4px 0;">English</span>
-        </div>
-        <div class="chip chip-in" id="num-base-in" onclick="setNumBase('IN')">
-          <span class="chip-top" style="margin: 4px 0;">Indian</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="unit-section">
-      <div class="slabel">Input Number</div>
-      <div class="pill-row" id="num-pills"></div>
-    </div>
-
-    <div class="input-area">
-      <div class="input-row">
-        <input class="num-input" id="num-val" type="number" value="" oninput="computeNum()" />
-        <span id="num-tag" class="unit-tag utag-jp" style="display:none;"></span>
-      </div>
-      <div class="ghost-text" id="num-ghost"></div>
-    </div>
-
-    <div class="slabel" style="margin-bottom: 10px;">Formatted Translations</div>
-    <div id="num-output"></div>
+    <button class="app-tab active tooltip-wrap" data-tooltip="Convert live currencies natively (e.g. JPY to INR)" id="tab-cur" onclick="switchAppView('currency')">Currency Mode</button>
+    <button class="app-tab tooltip-wrap" data-tooltip="Translate native unit scales (e.g. 800万 to Millions)" id="tab-num" onclick="switchAppView('number')">Number Mode</button>
   </div>
 
 
-  <div id="view-currency" style="display:none;">
+  <div id="view-currency">
     <div class="unit-section" style="margin-bottom: 1rem;">
       <div class="slabel">Base Currency</div>
       <div class="pill-row" id="cur-base-pills">
@@ -411,6 +378,41 @@
 
     <div id="cur-output"></div>
   </div>
+
+
+  <div id="view-number" style="display:none;">
+    <div class="unit-section" style="margin-bottom: 1rem;">
+      <div class="slabel">Origin Format</div>
+      <div class="pill-row" id="num-base-pills">
+        <div class="chip chip-jp on" onclick="setNumBase('JP')">
+          <span class="chip-top" style="margin: 4px 0;">Japanese</span>
+        </div>
+        <div class="chip chip-en" onclick="setNumBase('EN')">
+          <span class="chip-top" style="margin: 4px 0;">English</span>
+        </div>
+        <div class="chip chip-in" id="num-base-in" onclick="setNumBase('IN')">
+          <span class="chip-top" style="margin: 4px 0;">Indian</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="unit-section">
+      <div class="slabel">Input Number</div>
+      <div class="pill-row" id="num-pills"></div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-row">
+        <input class="num-input" id="num-val" type="number" value="" oninput="computeNum()" />
+        <span id="num-tag" class="unit-tag utag-jp" style="display:none;"></span>
+      </div>
+      <div class="ghost-text" id="num-ghost"></div>
+    </div>
+
+    <div class="slabel" style="margin-bottom: 10px;">Formatted Translations</div>
+    <div id="num-output"></div>
+  </div>
+
 
 </div>
 
@@ -633,12 +635,6 @@ function computeNum() {
     const readableText = getSummaryText(total, code);
     
     const subTextHtml = readableText !== formatted ? `<div class="card-val-sub">${formatted}</div>` : '';
-    
-    // Generate Hover Alternate Readings
-    const sysCode = code; 
-    const otherSys = ['JP', 'EN', 'IN'].filter(s => s !== sysCode && (!hideINR || s !== 'IN'));
-    const altText = otherSys.map(sys => `${getSummaryText(total, sys)} (${N_META[sys].name})`).join('  |  ');
-    
     const bdHtml = getBreakdownHtml(total, N_META[code].group);
     const copyData = Math.round(total);
     const baseTag = isBase ? `<div class="base-badge">INPUT</div>` : '';
@@ -652,7 +648,7 @@ function computeNum() {
           </div>
           <div class="card-right">
             <div class="card-val-row">
-              <div class="card-primary highlight-${code} tooltip-wrap" data-tooltip="${altText}">${readableText}</div>
+              <div class="card-primary highlight-${code}">${readableText}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
@@ -662,7 +658,7 @@ function computeNum() {
         <div class="card-drawer">
           <div class="card-drawer-inner">
             <div class="card-bd" onclick="event.stopPropagation()">
-               <div class="bcol">
+               <div class="bcol" style="margin-left: 0; max-width: 100%;">
                  <div class="bcol-head bh-${N_META[code].class}">${N_META[code].name} Structure</div>
                  ${bdHtml}
                </div>
@@ -800,10 +796,15 @@ function computeCurrency() {
     const rawCheck = new Intl.NumberFormat(C_META[code].locale, { maximumFractionDigits: 0 }).format(outVal);
     const subTextHtml = readableText !== rawCheck ? `<div class="card-val-sub">${formatted}</div>` : '';
     
-    // Generate Hover Alternate Readings natively avoiding currency suffixes
+    // Generate Left Column Alternate Readings
     const sysCode = code === 'JPY' ? 'JP' : code === 'USD' ? 'EN' : 'IN';
     const otherSys = ['JP', 'EN', 'IN'].filter(s => s !== sysCode && (!hideINR || s !== 'IN'));
-    const altText = otherSys.map(sys => `${getSummaryText(outVal, sys)} (${N_META[sys].name})`).join('  |  ');
+    const altReadingsHtml = otherSys.map(sys => `
+      <div class="alt-row">
+        <span class="alt-label">In ${N_META[sys].name}</span>
+        <span class="alt-val">${getSummaryText(outVal, sys)}</span>
+      </div>
+    `).join('');
     
     const bdHtml = getBreakdownHtml(outVal, C_META[code].group);
     const copyData = Math.round(outVal);
@@ -819,7 +820,7 @@ function computeCurrency() {
           </div>
           <div class="card-right">
             <div class="card-val-row">
-              <div class="card-primary highlight-${code} tooltip-wrap" data-tooltip="${altText}">${readableText}</div>
+              <div class="card-primary highlight-${code}">${readableText}</div>
               <button class="copy-btn" onclick="copyVal(event, ${copyData})" title="Copy Value">${COPY_ICON}</button>
               <div class="chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
@@ -829,6 +830,10 @@ function computeCurrency() {
         <div class="card-drawer">
           <div class="card-drawer-inner">
             <div class="card-bd" onclick="event.stopPropagation()">
+               <div class="bcol-left">
+                 <div class="bcol-head bh-alt">Contextual Scale</div>
+                 ${altReadingsHtml}
+               </div>
                <div class="bcol">
                  <div class="bcol-head bh-${C_META[code].class}">${C_META[code].name} Breakdown</div>
                  ${bdHtml}
@@ -852,8 +857,8 @@ setNumBase('JP');
 setCurBase('JPY');
 fetchExchangeRates();
 
-// Set initial view
-switchAppView('number');
+// Set initial view to Currency Mode (leftmost tab)
+switchAppView('currency');
 
 </script>
 </body>
