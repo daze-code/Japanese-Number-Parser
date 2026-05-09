@@ -58,12 +58,12 @@
     max-width: 680px;
   }
 
-  /* Header & Navigation */
+  /* Header & About Section */
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
   }
   .header-title {
     font-size: 22px;
@@ -90,39 +90,20 @@
     -webkit-text-fill-color: var(--text-3);
   }
 
-  .help-btn {
-    background: transparent;
-    border: 1px solid var(--border-md);
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--text-2);
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    transition: background 0.15s;
-  }
-  .help-btn:hover { background: var(--border); color: var(--text-1); }
-
-  .help-box {
-    display: none;
+  .about-box {
     background: var(--surface);
     border: 0.5px solid var(--border-md);
     border-radius: var(--radius-md);
-    padding: 16px;
+    padding: 14px 18px;
     margin-bottom: 1.5rem;
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.5;
     color: var(--text-2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   }
-  .help-box.show { display: block; }
-  .help-box strong { color: var(--text-1); font-weight: 500; }
-  .help-box ul { margin-top: 8px; margin-left: 20px; }
+  .about-box strong { color: var(--text-1); }
 
+  /* App Navigation */
   .app-nav {
     display: flex;
     background: var(--surface);
@@ -304,7 +285,7 @@
   .card-val { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--text-1); }
   .card-readable { font-family: var(--sans); font-size: 13px; color: var(--text-3); margin-top: 4px; font-weight: 500; }
 
-  /* Accordion Breakdown using CSS Grid */
+  /* Accordion Breakdown */
   .card-drawer {
     display: grid;
     grid-template-rows: 0fr;
@@ -313,9 +294,7 @@
   }
   .card.expanded .card-drawer { grid-template-rows: 1fr; }
   
-  .card-drawer-inner {
-    overflow: hidden;
-  }
+  .card-drawer-inner { overflow: hidden; }
   .card-bd {
     border-top: 0.5px solid var(--border);
     padding: 14px 20px;
@@ -358,16 +337,11 @@
 
   <div class="header">
     <div class="header-title">JP-EN Number Parser <span>数字変換機</span></div>
-    <button class="help-btn" onclick="toggleHelp()" title="How to use">?</button>
   </div>
 
-  <div class="help-box" id="help-box">
-    <strong>How to use this tool:</strong>
-    <ul>
-      <li><strong>Number Mode:</strong> Quickly translate pure figures (like "6700万 visitors") natively between Western, Indian, and Japanese formats.</li>
-      <li><strong>Currency Mode:</strong> Convert live exchange rates between JPY, USD, and INR natively.</li>
-      <li><strong>Click on any output card</strong> (including the base format) to expand it and see exactly how that number is broken down and read in that region's format.</li>
-    </ul>
+  <div class="about-box">
+    <strong>💡 Instantly parse numbers across borders.</strong><br>
+    Translate massive figures natively between Japanese (万/億), Indian (Lakh/Crore), and Western formats. Flawless, deterministic parsing—no more comma-counting or AI hallucinations.
   </div>
 
   <div class="app-nav">
@@ -469,7 +443,7 @@ const C_META = {
 
 const DIRECT_PILL = { t: 'Direct Input', b: 'Raw', m: 1 };
 const PILLS_MAP = {
-  JP: [ DIRECT_PILL, {t:'万', b:'10,000', m:1e4}, {t:'億', b:'100,000,000', m:1e8}, {t:'兆', b:'1,000,000,000,000', m:1e12} ],
+  JP: [ DIRECT_PILL, {t:'万 <span style="font-size:0.85em;font-weight:400;opacity:0.75">man</span>', b:'10,000', m:1e4}, {t:'億 <span style="font-size:0.85em;font-weight:400;opacity:0.75">oku</span>', b:'100,000,000', m:1e8}, {t:'兆 <span style="font-size:0.85em;font-weight:400;opacity:0.75">chō</span>', b:'1,000,000,000,000', m:1e12} ],
   EN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Million', b:'1,000,000', m:1e6}, {t:'Billion', b:'1,000,000,000', m:1e9} ],
   IN: [ DIRECT_PILL, {t:'Thousand', b:'1,000', m:1e3}, {t:'Lakh', b:'1,00,000', m:1e5}, {t:'Crore', b:'1,00,00,000', m:1e7} ]
 };
@@ -483,10 +457,6 @@ let ratesActive = false;
 /* ==========================================
    SHARED UTILITIES
 ========================================== */
-function toggleHelp() {
-  document.getElementById('help-box').classList.toggle('show');
-}
-
 function switchAppView(view) {
   document.getElementById('view-number').style.display = view === 'number' ? 'block' : 'none';
   document.getElementById('view-currency').style.display = view === 'currency' ? 'block' : 'none';
@@ -534,10 +504,10 @@ function getSummaryText(total, code) {
   let parts = [];
   if (mappedCode === 'JP') {
     const cho = Math.floor(total / 1e12), oku = Math.floor((total % 1e12) / 1e8), man = Math.floor((total % 1e8) / 1e4), sen = Math.floor((total % 1e4) / 1e3);
-    if (cho) parts.push(`${cho}兆`);
-    if (oku) parts.push(`${oku}億`);
-    if (man) parts.push(`${man}万`);
-    if (sen && parts.length < 2) parts.push(`${sen}千`);
+    if (cho) parts.push(`${cho}兆 (chō)`);
+    if (oku) parts.push(`${oku}億 (oku)`);
+    if (man) parts.push(`${man}万 (man)`);
+    if (sen && parts.length < 2) parts.push(`${sen}千 (sen)`);
   } else if (mappedCode === 'EN') {
     const t = Math.floor(total / 1e12), b = Math.floor((total % 1e12) / 1e9), m = Math.floor((total % 1e9) / 1e6), k = Math.floor((total % 1e6) / 1e3);
     const suffix = isCur ? ['T','B','M','K'] : [' Trillion',' Billion',' Million',' Thousand'];
@@ -631,7 +601,6 @@ function selNumPill(i) {
 function computeNum() {
   const inputEl = document.getElementById('num-val');
   let rawInput = parseFloat(inputEl.value);
-  const isTyped = !isNaN(rawInput);
   if (isNaN(rawInput)) rawInput = parseFloat(inputEl.placeholder);
   if (isNaN(rawInput)) rawInput = 0; // Absolute fallback
 
@@ -645,15 +614,10 @@ function computeNum() {
   // Input UI State
   if (numSi === 0) { // Direct Mode
     tag.style.display = 'none';
-    if (isTyped) {
-      ghost.style.display = 'block';
-      ghost.textContent = getSummaryText(rawInput, numBase);
-    } else {
-      ghost.style.display = 'none';
-    }
+    ghost.style.display = 'none'; // Purposefully removed for Direct input
   } else { // Unit Mode
     tag.style.display = 'inline-block';
-    tag.textContent = pill.t;
+    tag.innerHTML = pill.t; // Changed to innerHTML to process Romaji span hints natively
     tag.className = `unit-tag utag-${meta.class}`;
     ghost.style.display = 'none';
   }
@@ -798,7 +762,7 @@ function computeCurrency() {
     }
   } else { 
     tag.style.display = 'inline-block';
-    tag.textContent = pill.t;
+    tag.innerHTML = pill.t; // innerHTML for romaji styling
     tag.className = `unit-tag utag-${meta.class}`;
     ghost.style.display = 'none';
   }
